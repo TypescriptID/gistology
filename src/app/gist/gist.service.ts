@@ -1,34 +1,38 @@
 import { Gist } from './gist.model';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { environment } from 'environments/environment';
 
 @Injectable()
 export class GistService {
-  constructor(private http: HttpClient) {
+  API = environment.serverUrl + '/api/gists';            // The gists API URL
+
+  constructor(private httpClient: HttpClient) {
   }
 
   // Get all saved gists
   getAllGists() {
-    return this.http.get('/api/gist');
+    return this.httpClient.get(this.API);
   }
 
   // Get a gist by Id
   getGistById(gistId) {
-    return this.http.get('/api/gist/' + gistId);
+    return this.httpClient.get(this.API + '/' + gistId);
   }
 
-  // register a new gist
+  // Save a new gist
   postGist(gist: Gist) {
-    return this.http.post('/api/gist', gist);
+    return this.httpClient.post(this.API, gist);
   }
 
   // update a gist
   updateGist(gist: Gist) {
-    return this.http.put('/api/gist', gist);
+    return this.httpClient.put(this.API, gist);
   }
 
   // delete a gist
   deleteGist(gistId) {
-    return this.http.delete('/api/gist/' + gistId);
+    return this.httpClient.delete(this.API + '/' + gistId);
   }
+
 }
